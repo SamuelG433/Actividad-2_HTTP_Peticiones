@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SID – HTTP + Token</title>
+  <link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+  <header class="header">
+    <h1>SID – HTTP + Token</h1>
+    <p class="byline">Samuel Gaviria Agudelo</p>
+  </header>
+
+  <!-- Pantalla de Login/Registro -->
+  <div id="loginContainer" class="login-container">
+    <form id="authForm">
+      <input placeholder="username" id="usernameInput" autocomplete="username"/>
+      <input placeholder="password" id="passwordInput" type="password" autocomplete="current-password"/>
+      <div class="row">
+        <button id="loginButton">Login</button>
+        <button id="registerButton" type="button" class="secondary">Register</button>
+      </div>
+      <p id="authMsg" class="msg"></p>
+    </form>
+  </div>
+
+  <!-- Pantalla principal -->
+  <section id="appSection" class="card hidden">
+    <div class="row space">
+      <h2 id="welcome">Hola, </h2>
+      <button id="logoutButton" class="danger">Logout</button>
+    </div>
+
+    <div class="card">
+      <h3>Actualizar puntaje</h3>
+      <label>Nuevo score <input id="inpScore" type="number" min="0" step="1"/></label>
+      <button id="btnUpdateScore">Guardar</button>
+      <p id="updateMsg" class="msg"></p>
+    </div>
+
+    <div class="card">
+      <h3>Leaderboard</h3>
+      <button id="btnRefresh">Refrescar</button>
+      <table class="table">
+        <thead><tr><th>#</th><th>Usuario</th><th>Score</th></tr></thead>
+        <tbody id="tblBody"></tbody>
+      </table>
+      <p id="listMsg" class="msg"></p>
+    </div>
+  </section>
+
+  <!-- Script principal -->
+  <script type="module" src="app.js"></script>
+</body>
+</html>
