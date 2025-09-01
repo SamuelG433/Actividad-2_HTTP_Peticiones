@@ -1,9 +1,0 @@
-# Normaliza saltos de línea a LF en el repo
-* text=auto
-
-# Forzar LF para todos los archivos de texto
-*.cs   text eol=lf
-*.json text eol=lf
-*.txt  text eol=lf
-*.md   text eol=lf
-*.shader text eol=lf
