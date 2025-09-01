@@ -1,20 +1,84 @@
-:root { --bg:#0c0f14; --card:#171b22; --text:#e7edf7; --muted:#9fb0c9; --accent:#7cc5ff; --danger:#ff6b6b; }
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,Segoe UI,Roboto,Arial}
-.header{padding:16px 20px}
-.byline{color:var(--muted)}
-.card{background:var(--card);padding:16px;margin:16px;border-radius:12px;box-shadow:0 6px 16px rgba(0,0,0,.25)}
-.hidden{display:none}
+:root {
+  --bg:#0b0f14; --bg2:#0f151d;
+  --card:#151b23; --text:#e7edf7; --muted:#9fb0c9;
+  --accent:#7cc5ff; --success:#3ac779; --danger:#ff6b6b;
+}
 
-.login-container{display:flex;align-items:center;justify-content:center;min-height:60vh}
-form{background:#171b22;padding:24px;border-radius:12px;box-shadow:0 6px 16px rgba(0,0,0,.25);width:100%;max-width:360px}
-input{width:100%;padding:10px;border-radius:8px;border:1px solid #2a3240;background:#0f131a;color:var(--text);margin-bottom:12px}
-button{padding:10px 14px;border-radius:10px;border:1px solid #2a3240;background:#15202b;color:var(--text);cursor:pointer}
-button:hover{background:#1d2a38}
-.secondary{background:#0f1a24}
-.danger{background:#2a0f13;border-color:#4a1b21}
-.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-.space{justify-content:space-between}
-.table{width:100%;border-collapse:collapse;margin-top:8px}
-th,td{padding:8px;border-bottom:1px solid #2a3240}
-.msg{color:var(--muted);min-height:1em}
+*{box-sizing:border-box}
+body{
+  margin:0; color:var(--text); font-family:system-ui,Segoe UI,Roboto,Arial;
+  background: radial-gradient(1200px 600px at 70% -10%, #122033 0%, transparent 60%) , var(--bg);
+}
+
+/* Header centrado */
+.header{ padding:24px 16px; text-align:center; }
+.header h1{ margin:0; font-weight:700; letter-spacing:.3px; }
+.byline{ color:var(--muted); margin-top:6px; }
+
+/* Tarjetas y contenedores */
+.card{
+  background:linear-gradient(180deg, var(--card), var(--bg2));
+  padding:20px; margin:16px auto; border-radius:16px;
+  box-shadow:0 10px 30px rgba(0,0,0,.32);
+  width: min(960px, 92vw);
+  animation: fadeInUp .35s ease both;
+}
+.hidden{ display:none; }
+
+/* Login centrado */
+.login-container{ display:flex; align-items:center; justify-content:center; min-height:60vh; }
+form{
+  width:min(420px, 92vw);
+  background:linear-gradient(180deg, var(--card), var(--bg2));
+  padding:24px; border-radius:16px;
+  box-shadow:0 10px 30px rgba(0,0,0,.32);
+  animation: fadeInUp .35s ease both;
+}
+
+/* Inputs con feedback */
+input{
+  width:100%; padding:12px 14px; border-radius:10px;
+  border:1px solid #2a3240; background:#0f131a; color:var(--text);
+  margin-bottom:12px; transition:border-color .2s, box-shadow .2s, transform .08s;
+}
+input:focus{ outline:none; border-color:var(--accent); box-shadow:0 0 0 3px #7cc5ff30; }
+
+/* Estados de validación */
+input.is-invalid{ border-color:var(--danger); box-shadow:0 0 0 3px #ff6b6b2e; }
+input.is-valid  { border-color:var(--success); box-shadow:0 0 0 3px #3ac7792e; }
+
+/* Botones con micro-animación */
+button{
+  padding:10px 14px; border-radius:10px;
+  border:1px solid #2a3240; background:#172433; color:var(--text);
+  cursor:pointer; transition: transform .06s ease, background .2s, box-shadow .2s;
+}
+button:hover{ background:#1b2b3d; box-shadow:0 6px 18px rgba(0,0,0,.25); }
+button:active{ transform: translateY(1px) scale(0.995); }
+.secondary{ background:#0f1a24; }
+.danger{ background:#2a0f13; border-color:#4a1b21; }
+
+/* Layouts */
+.row{ display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+.space{ justify-content:space-between; }
+.table{ width:100%; border-collapse:collapse; margin-top:8px; }
+th,td{ padding:10px 8px; border-bottom:1px solid #263043; color:#d8e3f3; }
+.msg{ min-height:1em; margin-top:6px; }
+
+/* Avisos */
+.alert{ padding:10px 12px; border-radius:10px; margin-top:10px; font-weight:600; }
+.alert--error{ background:#3b1417; color:#ffb3b3; border:1px solid #7a2a30; }
+.alert--success{ background:#11361f; color:#baf3d0; border:1px solid #2c6e49; }
+
+/* Animaciones sutiles */
+@keyframes fadeInUp{
+  from{ opacity:0; transform: translateY(6px); }
+  to  { opacity:1; transform: translateY(0); }
+}
+@keyframes shakeX{
+  10%, 90% { transform: translateX(-2px); }
+  20%, 80% { transform: translateX(3px); }
+  30%, 50%, 70% { transform: translateX(-4px); }
+  40%, 60% { transform: translateX(4px); }
+}
+.shake{ animation: shakeX .35s ease; }
