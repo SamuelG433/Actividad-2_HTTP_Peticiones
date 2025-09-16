@@ -1,5 +1,5 @@
 // ====== API + Helpers de red ======
-const API_BASE = " http://128.0.0.1:1234/";
+const API_BASE = "http://127.0.0.1:1234"; // sin espacios y sin "/" final
 
 function headers(token, body){
   const h = {};
@@ -92,15 +92,12 @@ loginButton.addEventListener("click", async (e)=>{
   const u = inpUser.value.trim();
   const p = inpPass.value;
 
-  // Validación local por longitud
   let ok = true;
   if (u.length < 3){ markInvalid(inpUser); ok = false; } else { markValid(inpUser); }
   if (p.length < 4){ markInvalid(inpPass); ok = false; } else { markValid(inpPass); }
-
   if (!ok){
     showAlert("error", "Usuario mínimo 3 caracteres y contraseña mínimo 4.");
-    shake(authForm);
-    return;
+    shake(authForm); return;
   }
 
   authMsg.textContent = "Autenticando...";
@@ -108,17 +105,14 @@ loginButton.addEventListener("click", async (e)=>{
     const data = await apiLogin(u, p);
     if (!data?.token) throw new Error("Respuesta inesperada en login");
 
-    // Éxito
     storage.token = data.token;
-    storage.username = u;
-    markValid(inpUser); markValid(inpPass);
+    storage.username = data?.usuario?.username ?? u;
 
     showApp();
     await loadLeaderboard();
     clearAlert();
     authMsg.textContent = "";
   } catch (err){
-    // Falla del servidor → rojo y shake
     showAlert("error", "Usuario o contraseña incorrectos.");
     shake(authForm);
     authMsg.textContent = "";
@@ -126,7 +120,7 @@ loginButton.addEventListener("click", async (e)=>{
   }
 });
 
-// ====== Auth: Registro ======
+// ====== Auth: Registro (auto-login usando token devuelto) ======
 registerButton.addEventListener("click", async ()=>{
   clearAlert(); authMsg.textContent = "";
 
@@ -136,18 +130,25 @@ registerButton.addEventListener("click", async ()=>{
   let ok = true;
   if (u.length < 3){ markInvalid(inpUser); ok = false; } else { markValid(inpUser); }
   if (p.length < 4){ markInvalid(inpPass); ok = false; } else { markValid(inpPass); }
-
   if (!ok){
     showAlert("error", "Usuario mínimo 3 caracteres y contraseña mínimo 4.");
-    shake(authForm);
-    return;
+    shake(authForm); return;
   }
 
   authMsg.textContent = "Registrando...";
   try {
-    await apiRegister(u, p);
+    const r = await apiRegister(u, p);
     authMsg.textContent = "";
-    showAlert("success", "Registro completado. Ahora inicia sesión.");
+
+    if (r && r.token){
+      storage.token = r.token;
+      storage.username = r?.usuario?.username ?? u;
+      showApp();
+      await loadLeaderboard();
+      showAlert("success", "Registrado y autenticado.");
+    } else {
+      showAlert("success", "Registro completado. Ahora inicia sesión.");
+    }
     markValid(inpUser); markValid(inpPass);
   } catch (err){
     authMsg.textContent = "";
